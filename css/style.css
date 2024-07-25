@@ -1,0 +1,156 @@
+/* styles.css */
+
+/* Change font-family for the entire navbar */
+.navbar {
+  font-family: "Arial", sans-serif;
+}
+
+/* Change background color of the navbar */
+.navbar.bg-dark {
+  background-color: #343a40 !important;
+}
+
+/* Change font color for the navbar brand (logo) */
+.navbar-brand {
+  color: #ffffff !important;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Change font color for navbar links */
+.navbar-nav .nav-link {
+  color: #ffffff !important;
+}
+
+/* Change font color for active navbar link */
+.navbar-nav .nav-link.active {
+  color: #ffc107 !important;
+}
+
+/* Change background color for dropdown menu */
+.dropdown-menu {
+  background-color: #343a40;
+}
+
+/* Change font color for dropdown items */
+.dropdown-item {
+  color: #ffffff !important;
+}
+
+/* Change background color for dropdown items on hover */
+.dropdown-item:hover {
+  background-color: #495057;
+  color: #ffffff !important;
+}
+
+/* Style the search form input and button */
+.navbar .form-control {
+  background-color: #495057;
+  color: #ffffff;
+  border: 1px solid #6c757d;
+}
+
+.navbar .btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+.navbar .btn-primary:hover {
+  background-color: #0056b3;
+}
+.about-section {
+  padding: 60px 0;
+  background-color: #f8f9fa;
+}
+.about-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+.about-section {
+  padding: 60px 0;
+  background-color: #f8f9fa;
+}
+.section-padding {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+.about-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+.about-section p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+/* General section styling */
+section {
+  padding: 40px 0; /* Add vertical padding to create space between sections */
+}
+
+/* Heading styling */
+section h2 {
+  text-align: center; /* Center-align the heading text */
+  background-color: #f0f0f0; /* Background color for the heading */
+  padding: 10px; /* Padding around the heading text */
+  border-radius: 5px; /* Rounded corners for the background */
+  margin-bottom: 30px; /* Space between the heading and the grid */
+  font-size: 2rem; /* Adjust font size as needed */
+  color: #333; /* Text color */
+}
+
+/* Portfolio grid */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+/* Portfolio item */
+.portfolio-item {
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  padding: 20px;
+}
+
+.portfolio-item:hover {
+  transform: scale(1.05);
+}
+
+.portfolio-item img {
+  width: 150px; /* Set a specific size for the images */
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.portfolio-item h3 {
+  margin: 10px 0;
+}
+
+.portfolio-item a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+#contact p {
+  text-align: center;
+}
+
+footer {
+  background: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+}
+
+@media (max-width: 600px) {
+  nav ul li {
+    display: block;
+    margin: 10px 0;
+  }
+}
