@@ -137,8 +137,23 @@ section h2 {
   font-weight: bold;
 }
 
-#contact p {
+#contact {
+  background-color: #f8f9fa;
+  padding: 60px 20px;
   text-align: center;
+  border-top: 1px solid #ddd;
+}
+
+#contact h2 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+#contact p {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 20px;
 }
 
 footer {
