@@ -1,4 +1,3 @@
-// DOM Elements
 const newUserBtn = document.getElementById("newUserBtn");
 const registrationModal = document.getElementById("registrationModal");
 const closeBtn = document.querySelector(".close-btn");
@@ -9,42 +8,7 @@ const otherRoleInput = document.getElementById("otherRole");
 const profilesContainer = document.getElementById("profilesContainer");
 const filterButtons = document.querySelectorAll(".filter-btn");
 
-// Sample data for initial profiles
-let profiles = [
-  {
-    name: "Jane Doe",
-    phone: "+1 (555) 123-4567",
-    email: "jane.doe@example.com",
-    photo: "https://randomuser.me/api/portraits/women/1.jpg",
-    portfolio: "https://janedoe.portfolio.dev",
-    skills: ["JavaScript", "React", "Node.js", "MongoDB", "Express"],
-    role: "Full Stack Developer",
-  },
-  {
-    name: "John Smith",
-    phone: "+1 (555) 987-6543",
-    email: "john.smith@example.com",
-    photo: "https://randomuser.me/api/portraits/men/1.jpg",
-    portfolio: "https://johnsmith.cloud",
-    skills: ["AWS", "Azure", "Docker", "Kubernetes", "Terraform"],
-    role: "Cloud Engineer",
-  },
-  {
-    name: "Emily Chen",
-    phone: "+1 (555) 456-7890",
-    email: "emily.chen@example.com",
-    photo: "https://randomuser.me/api/portraits/women/2.jpg",
-    portfolio: "https://emilychen.design",
-    skills: ["Figma", "Adobe XD", "Sketch", "UI Design", "User Research"],
-    role: "UI/UX Developer",
-  },
-];
-
-// Check if profiles exist in localStorage
-const storedProfiles = localStorage.getItem("portfolioProfiles");
-if (storedProfiles) {
-  profiles = JSON.parse(storedProfiles);
-}
+let profiles = [];
 
 // Event Listeners
 newUserBtn.addEventListener("click", openModal);
@@ -56,48 +20,28 @@ filterButtons.forEach((button) => {
   button.addEventListener("click", () => filterProfiles(button.dataset.filter));
 });
 
-// Initialize the app
+// Init app
 function init() {
-  renderProfiles();
+  fetchProfilesFromBackend();
 }
 
-// Open the registration modal
-function openModal() {
-  registrationModal.style.display = "block";
-  document.body.style.overflow = "hidden"; // Prevent scrolling when modal is open
-}
-
-// Close the registration modal
-function closeModal() {
-  registrationModal.style.display = "none";
-  registrationForm.reset();
-  otherRoleGroup.classList.add("hidden");
-  document.body.style.overflow = ""; // Re-enable scrolling
-}
-
-// Close modal if clicked outside
-function outsideClick(e) {
-  if (e.target === registrationModal) {
-    closeModal();
+// Fetch from backend
+async function fetchProfilesFromBackend() {
+  try {
+    const res = await fetch("http://127.0.0.1:5000/profiles");
+    const data = await res.json();
+    profiles = data.profiles || [];
+    renderProfiles();
+  } catch (err) {
+    console.error("Error fetching profiles:", err);
+    showNotification("Error loading profiles.");
   }
 }
 
-// Handle role selection change
-function handleRoleChange() {
-  if (roleSelect.value === "Other") {
-    otherRoleGroup.classList.remove("hidden");
-    otherRoleInput.setAttribute("required", true);
-  } else {
-    otherRoleGroup.classList.add("hidden");
-    otherRoleInput.removeAttribute("required");
-  }
-}
-
-// Handle form submission
-function handleFormSubmit(e) {
+// Handle form submit
+async function handleFormSubmit(e) {
   e.preventDefault();
 
-  // Get form values
   const name = document.getElementById("name").value;
   const phone = document.getElementById("phone").value;
   const email = document.getElementById("email").value;
@@ -108,14 +52,12 @@ function handleFormSubmit(e) {
     .value.split(",")
     .map((skill) => skill.trim());
 
-  // Determine role
   let role = roleSelect.value;
   if (role === "Other") {
     role = otherRoleInput.value;
   }
 
-  // Create new profile
-  const newProfile = {
+  const profile = {
     name,
     phone,
     email,
@@ -125,23 +67,63 @@ function handleFormSubmit(e) {
     role,
   };
 
-  // Add to profiles array
-  profiles.push(newProfile);
+  try {
+    const response = await fetch("http://127.0.0.1:5000/verify-and-add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(profile),
+    });
 
-  // Save to localStorage
-  localStorage.setItem("portfolioProfiles", JSON.stringify(profiles));
+    const result = await response.json();
 
-  // Render profiles
-  renderProfiles();
+    if (response.ok) {
+      showNotification("✔ Profile verified and added!");
+      fetchProfilesFromBackend(); // reload profiles
+    } else {
+      showNotification(
+        `✖ Verification failed: ${result.reason || "Try again"}`
+      );
+    }
 
-  // Close modal
-  closeModal();
-
-  // Show success message
-  showNotification("Profile added successfully!");
+    closeModal();
+  } catch (err) {
+    showNotification("✖ Network error. Try again.");
+    console.error(err);
+  }
 }
 
-// Show notification
+// Other UI functions below...
+
+function openModal() {
+  registrationModal.style.display = "block";
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  registrationModal.style.display = "none";
+  registrationForm.reset();
+  otherRoleGroup.classList.add("hidden");
+  document.body.style.overflow = "";
+}
+
+function outsideClick(e) {
+  if (e.target === registrationModal) {
+    closeModal();
+  }
+}
+
+function handleRoleChange() {
+  if (roleSelect.value === "Other") {
+    otherRoleGroup.classList.remove("hidden");
+    otherRoleInput.setAttribute("required", true);
+  } else {
+    otherRoleGroup.classList.add("hidden");
+    otherRoleInput.removeAttribute("required");
+  }
+}
+
 function showNotification(message) {
   const notification = document.createElement("div");
   notification.className = "notification";
@@ -158,7 +140,6 @@ function showNotification(message) {
 
   document.body.appendChild(notification);
 
-  // Remove notification after 3 seconds
   setTimeout(() => {
     notification.style.opacity = "0";
     notification.style.transition = "opacity 0.5s ease";
@@ -168,11 +149,9 @@ function showNotification(message) {
   }, 3000);
 }
 
-// Render profiles
 function renderProfiles(filter = "all") {
   profilesContainer.innerHTML = "";
 
-  // Filter profiles
   let filteredProfiles = profiles;
   if (filter !== "all") {
     if (filter === "other") {
@@ -189,7 +168,6 @@ function renderProfiles(filter = "all") {
     }
   }
 
-  // Check if there are no profiles
   if (filteredProfiles.length === 0) {
     profilesContainer.innerHTML = `
       <div class="empty-state">
@@ -200,7 +178,6 @@ function renderProfiles(filter = "all") {
     return;
   }
 
-  // Render each profile
   filteredProfiles.forEach((profile) => {
     const profileCard = document.createElement("div");
     profileCard.className = "profile-card";
@@ -229,9 +206,7 @@ function renderProfiles(filter = "all") {
   });
 }
 
-// Filter profiles
 function filterProfiles(filter) {
-  // Update active button
   filterButtons.forEach((button) => {
     if (button.dataset.filter === filter) {
       button.classList.add("active");
@@ -240,9 +215,7 @@ function filterProfiles(filter) {
     }
   });
 
-  // Render filtered profiles
   renderProfiles(filter);
 }
 
-// Initialize the app
 init();

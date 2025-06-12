@@ -25,8 +25,9 @@ def verify_portfolio(url, skills):
                 print(f"Missing section: {section}")
                 section_pass = False
 
-        return skill_pass and section_pass
+        return section_pass
 
     except Exception as e:
         print("Verification error:", e)
         return False
+
