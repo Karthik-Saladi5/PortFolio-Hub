@@ -1,25 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" />x -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portfolio Showcase</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <div id="app">
       <header>
-        <h1>Portfolio Showcase</h1>
-        <p>Discover talented professionals across different domains</p>
+        <div class="title">
+          <h1>PortfolioHub</h1>
+          <!-- <p>Discover talented professionals across different domains</p> -->
+        </div>
+        <div class="SearchBar">
+
+        </div>
+        <div class="button">
+          <button id="newUserBtn" class="cta-button">New User</button>
+        </div>
       </header>
-      
+
       <main>
         <section id="hero">
           <div class="container">
             <h2>Find Your Next Team Member</h2>
-            <p>Browse through our collection of talented professionals or register yourself</p>
-            <button id="newUserBtn" class="cta-button">New User</button>
+            <p>Browse through our collection of talented professionals</p>
           </div>
         </section>
 
@@ -28,9 +35,15 @@
             <h2>Browse by Category</h2>
             <div class="category-filters">
               <button class="filter-btn active" data-filter="all">All</button>
-              <button class="filter-btn" data-filter="Full Stack Developer">Full Stack</button>
-              <button class="filter-btn" data-filter="Cloud Engineer">Cloud</button>
-              <button class="filter-btn" data-filter="UI/UX Developer">UI/UX</button>
+              <button class="filter-btn" data-filter="Full Stack Developer">
+                Full Stack
+              </button>
+              <button class="filter-btn" data-filter="Cloud Engineer">
+                Cloud
+              </button>
+              <button class="filter-btn" data-filter="UI/UX Developer">
+                UI/UX
+              </button>
               <button class="filter-btn" data-filter="other">Other</button>
             </div>
           </div>
@@ -53,55 +66,75 @@
           <form id="registrationForm">
             <div class="form-group">
               <label for="name">Full Name</label>
-              <input type="text" id="name" name="name" required>
+              <input type="text" id="name" name="name" required />
             </div>
-            
+
             <div class="form-group">
               <label for="phone">Phone Number</label>
-              <input type="tel" id="phone" name="phone" required>
+              <input type="tel" id="phone" name="phone" required />
             </div>
-            
+
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" id="email" name="email" required>
+              <input type="email" id="email" name="email" required />
             </div>
-            
+
             <div class="form-group">
               <label for="photo">Photo URL</label>
-              <input type="url" id="photo" name="photo" placeholder="https://example.com/your-photo.jpg" required>
+              <input
+                type="url"
+                id="photo"
+                name="photo"
+                placeholder="https://example.com/your-photo.jpg"
+                required
+              />
             </div>
-            
+
             <div class="form-group">
               <label for="portfolio">Portfolio Link</label>
-              <input type="url" id="portfolio" name="portfolio" placeholder="https://yourportfolio.com" required>
+              <input
+                type="url"
+                id="portfolio"
+                name="portfolio"
+                placeholder="https://yourportfolio.com"
+                required
+              />
             </div>
-            
+
             <div class="form-group">
               <label for="skills">Skills (comma separated)</label>
-              <input type="text" id="skills" name="skills" placeholder="JavaScript, React, Node.js, etc." required>
+              <input
+                type="text"
+                id="skills"
+                name="skills"
+                placeholder="JavaScript, React, Node.js, etc."
+                required
+              />
             </div>
-            
+
             <div class="form-group">
               <label for="role">Role</label>
               <select id="role" name="role" required>
                 <option value="">Select your profession</option>
-                <option value="Full Stack Developer">Full Stack Developer</option>
+                <option value="Full Stack Developer">
+                  Full Stack Developer
+                </option>
                 <option value="Cloud Engineer">Cloud Engineer</option>
                 <option value="UI/UX Developer">UI/UX Developer</option>
                 <option value="other">Other</option>
               </select>
             </div>
-            
+
             <div id="otherRoleGroup" class="form-group hidden">
               <label for="otherRole">Specify Role</label>
-              <input type="text" id="otherRole" name="otherRole">
+              <input type="text" id="otherRole" name="otherRole" />
             </div>
-            
+
             <button type="submit" class="submit-btn">Submit Profile</button>
           </form>
         </div>
       </div>
     </div>
-    <script type="module" src="/main.js"></script>
+    <script src="scripts/main.js" defer></script>
   </body>
 </html>
