@@ -1,5 +1,7 @@
 import sqlite3
+import os
 
+DB_PATH = os.getenv("DATABASE_PATH", "/tmp/portfolio.db")
 # Initialize the database and create the table if it doesn't exist
 def init_db():
     conn = sqlite3.connect("portfolio.db")
